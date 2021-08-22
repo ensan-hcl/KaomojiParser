@@ -2,10 +2,8 @@
     @testable import KaomojiParser
 
     final class KaomojiParserTests: XCTestCase {
-        func testExample() {
-            // This is an example of a functional test case.
-            // Use XCTAssert and related functions to verify your tests produce the correct
-            // results.
-            XCTAssertEqual(KaomojiParser().text, "Hello, World!")
+        func testParser() {
+            let parser = KaomojiParser()
+            XCTAssertEqual(parser.search(from: "嬉しいです(≧▽≦)", G: 3, L: 3), ["(≧▽≦)"])
         }
     }
