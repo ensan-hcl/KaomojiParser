@@ -11,10 +11,10 @@
 
         func testParser() {
             let parser = KaomojiParser()
-            XCTAssertEqual(parser.search(from: "嬉しいです(≧▽≦)", G: 3, L: 3), ["(≧▽≦)"])
-            XCTAssertEqual(parser.search(from: "地震だ！┗(^o^;)┓", G: 3, L: 3), ["┗(^o^;)┓"])
-            XCTAssertEqual(parser.search(from: "またね(・Д・)ノ", G: 3, L: 3), ["(・Д・)ノ"])
-            XCTAssertEqual(parser.search(from: "ホームランｷﾀ━━━━(ﾟ∀ﾟ)━━━━‼︎", G: 3, L: 3), ["ｷﾀ━━━━(ﾟ∀ﾟ)━━━━‼︎"])
-            XCTAssertEqual(parser.search(from: "嫌い(｀ε´)　絶交しよ( ￣っ￣)", G: 3, L: 3), ["(｀ε´)　", "( ￣っ￣)"])
+            XCTAssertEqual(parser.search(in: "嬉しいです(≧▽≦)"), ["(≧▽≦)"])
+            XCTAssertEqual(parser.search(in: "地震だ！┗(^o^;)┓"), ["┗(^o^;)┓"])
+            XCTAssertEqual(parser.search(in: "またね(・Д・)ノ"), ["(・Д・)ノ"])
+            XCTAssertEqual(parser.search(in: "ホームランｷﾀ━━━━(ﾟ∀ﾟ)━━━━‼︎"), ["ｷﾀ━━━━(ﾟ∀ﾟ)━━━━‼︎"])
+            XCTAssertEqual(parser.search(in: "嫌い(｀ε´)　絶交しよ( ￣っ￣)"), ["(｀ε´)　", "( ￣っ￣)"])
         }
     }

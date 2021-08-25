@@ -252,9 +252,30 @@ public struct KaomojiParser {
         return (result.startIndex, result.endIndex)
     }
 
-    public func search(from string: String, G: Int, L: Int) -> Set<String> {
+    /// How torelantly judge whether a part of text is kaomoji or not.
+    public enum Tolerance {
+        case loose
+        case normal
+        case strict
+
+        var gValue: Int {
+            switch self {
+            case .loose: return 5
+            case .normal: return 3
+            case .strict: return 1
+            }
+        }
+    }
+
+    /// Search kaomoji inside the text.
+    /// - Parameters:
+    ///   - string: target string to search kaomoji.
+    ///   - tolerance: how torelantly judge whether a part of text is kaomoji or not
+    ///   - minimumLength: minimum length of a kaomoji
+    /// - Returns: found kaomoji set
+    public func search(in string: String, tolerance: Tolerance = .normal, minimumLength: Int = 3) -> Set<String> {
         let splited = string.split(separator: "\n")
-        let result = splited.flatMap{kaomojiExtract(from: String($0), G: G, L: L)}
+        let result = splited.flatMap{kaomojiExtract(from: String($0), G: tolerance.gValue, L: minimumLength)}
         return Set(result)
     }
 }
