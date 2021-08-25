@@ -17,6 +17,9 @@ This is one of popular kaomoji, but the range of kaomoji depends on the definiti
 
 At first, this project uses the third way to parse texts. Maybe first and second ways can be added in the future.
 
+## Accuracy
+Currently, KaomojiParser works well with kaomoji that uses un-common characters. However, for kaomoji that use common characters like `(- -;)`, `(..)`, `(*_*)`, or `(TT)`, KaomojiParser doesn't work well.
+
 ## Reference
 
 This implementation relys on this paper. Thanks to the authors.

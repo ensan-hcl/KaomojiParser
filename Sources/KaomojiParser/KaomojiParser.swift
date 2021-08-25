@@ -34,6 +34,16 @@ public struct KaomojiParser {
         return false
     }
 
+    func isHalfKatakana(_ unicodeScalar: UnicodeScalar) -> Bool {
+        return 0xFF66 ... 0xFF9F ~= unicodeScalar.value
+    }
+
+    func isLeftsideAllowed(_ unicodeScalar: UnicodeScalar) -> Bool {
+        if isHalfKatakana(unicodeScalar) { return true }
+        if ["━"].contains(unicodeScalar) { return true }
+        return false
+    }
+
     func shouldBeDroppedLeft(_ unicodeScalar: UnicodeScalar) -> Bool {
         let charcterSet = CharacterSet(charactersIn: ")）」』］】｝〉〕。、,.!?！？…→")
         if charcterSet.contains(unicodeScalar){
@@ -51,6 +61,7 @@ public struct KaomojiParser {
     }
 
     func isPermittedLeftSequence(_ unicodeScalars: [UnicodeScalar]) -> Bool {
+        if unicodeScalars.allSatisfy(isLeftsideAllowed) { return true }
         let list: [[UnicodeScalar]] = [
             ["m","("],
             ["(","("],
@@ -61,13 +72,13 @@ public struct KaomojiParser {
             ["。","・"],
             ["ヾ","ﾉ"],
             [" ","ﾉ"],
-            ["ｷ","ﾀ"],
-            ["ｲ","ｴ"],
         ]
         return list.contains(unicodeScalars)
     }
 
     func isPermittedRightSequence(_ unicodeScalars: [UnicodeScalar]) -> Bool {
+        if unicodeScalars.allSatisfy(isHalfKatakana) { return true }
+
         let list: [[UnicodeScalar]] = [
             [")",")"],
             [")","m"],
@@ -222,16 +233,20 @@ public struct KaomojiParser {
             result = scalars[result.startIndex ..< result.endIndex - 1]
         }
         //領域補完
-        do{
+        while true {
+            var changed = false
             let leftside = Array(scalars[max(0, result.startIndex - 1)..<min(result.startIndex+1, result.endIndex)])
             if isPermittedLeftSequence(leftside){
                 result = scalars[max(0, result.startIndex - 1) ..< result.endIndex]
+                changed = true
             }
-        }
-        do{
             let rightside = Array(scalars[max(result.startIndex, result.endIndex-1)..<min(scalars.endIndex, result.endIndex + 1)])
             if isPermittedRightSequence(rightside){
                 result = scalars[result.startIndex ..< min(scalars.endIndex, result.endIndex + 1)]
+                changed = true
+            }
+            if !changed {
+                break
             }
         }
         return (result.startIndex, result.endIndex)
