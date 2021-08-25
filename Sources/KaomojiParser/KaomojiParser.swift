@@ -278,4 +278,19 @@ public struct KaomojiParser {
         let result = splited.flatMap{kaomojiExtract(from: String($0), G: tolerance.gValue, L: minimumLength)}
         return Set(result)
     }
+
+    /// Remove kaomoji inside the text.
+    /// - Parameters:
+    ///   - string: target string to search kaomoji.
+    ///   - tolerance: how torelantly judge whether a part of text is kaomoji or not
+    ///   - minimumLength: minimum length of a kaomoji
+    /// - Returns: found kaomoji set
+    public func removeKaomoji(from string: String, tolerance: Tolerance = .normal, minimumLength: Int = 3) -> String {
+        let splited = string.split(separator: "\n")
+        var result = string
+        for kaomoji in Set(splited.flatMap{kaomojiExtract(from: String($0), G: tolerance.gValue, L: minimumLength)}) {
+            result = result.replacingOccurrences(of: kaomoji, with: "")
+        }
+        return result
+    }
 }
