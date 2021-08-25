@@ -1,6 +1,8 @@
 import Foundation
 
 public struct KaomojiParser {
+    public init() {}
+    
     func isKaomojiMainCharacter(_ unicodeScalar: UnicodeScalar) -> Bool {
         if CharacterSet.punctuationCharacters.contains(unicodeScalar){
             return true
