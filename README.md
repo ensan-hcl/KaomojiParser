@@ -20,6 +20,21 @@ At first, this project uses the third way to parse texts. Maybe first and second
 ## Accuracy
 Currently, KaomojiParser works well with kaomoji that uses un-common characters. However, for kaomoji that use common characters like `(- -;)`, `(..)`, `(*_*)`, or `(TT)`, KaomojiParser doesn't work well.
 
+## Usage
+
+Use Swift Package Manager to use KaomojiParser.
+
+Once you enabled it, KaomojiParser can be used like this.
+
+```swift
+import KaomojiParser
+
+let parser = KaomojiParser()
+let target = "嬉しいです(≧▽≦)"
+print(parser.removeKaomoji(from: target))  // "嬉しいです"
+print(parser.search(in: target))           // ["(≧▽≦)"]
+```
+
 ## Reference
 
 This implementation relys on this paper. Thanks to the authors.
